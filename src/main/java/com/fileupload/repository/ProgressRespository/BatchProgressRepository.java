@@ -15,8 +15,8 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         @Query(value = "SELECT user_id, AVG(course_progress) AS overall_progress" +
                         " FROM (" +
                         "    SELECT lr.course_id, p.user_id, AVG(p.completion_percentage) AS course_progress" +
-                        "    FROM Progress p" +
-                        "    JOIN Resource r ON p.resource_id = r.resource_id" +
+                        "    FROM progress p" +
+                        "    JOIN resource r ON p.resource_id = r.resource_id" +
                         "    JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id" +
                         "    WHERE p.batch_id = :batchId" +
                         "    GROUP BY lr.course_id, p.user_id" +
@@ -30,9 +30,9 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
                         " SELECT user_id, AVG(course_progress) AS overall_progress  " +
                         " FROM ( " +
                         "     SELECT lr.course_id, p.user_id, AVG(p.completion_percentage) AS course_progress  " +
-                        "     FROM Progress p  " +
-                        "     JOIN Resource r ON p.resource_id = r.resource_id  " +
-                        "     JOIN Learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
+                        "     FROM progress p  " +
+                        "     JOIN resource r ON p.resource_id = r.resource_id  " +
+                        "     JOIN learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "     WHERE p.batch_id = :batchId " +
                         "     GROUP BY lr.course_id, p.user_id " +
                         " ) AS cp  " +
@@ -44,8 +44,8 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         @Query(value = "SELECT batch_id, AVG(overall_progress) AS batch_completion_progress " +
                         "FROM (" +
                         "    SELECT p.batch_id, p.user_id, AVG(p.completion_percentage) AS overall_progress " +
-                        "    FROM Progress p " +
-                        "    JOIN Resource r ON p.resource_id = r.resource_id " +
+                        "    FROM progress p " +
+                        "    JOIN resource r ON p.resource_id = r.resource_id " +
                         "    JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id " +
                         "    GROUP BY p.batch_id, p.user_id " +
                         ") AS batch_progress " +
@@ -56,15 +56,15 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         @Query(value = "SELECT user_id, AVG(course_progress) AS overall_progress  " +
                         "FROM ( " +
                         " SELECT lr.course_id, p.user_id, AVG(p.completion_percentage) AS course_progress  " +
-                        " FROM Progress p  " +
-                        " JOIN Resource r ON p.resource_id = r.resource_id  " +
+                        " FROM progress p  " +
+                        " JOIN resource r ON p.resource_id = r.resource_id  " +
                         " JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "  GROUP BY lr.course_id, p.user_id " +
                         " ) AS cp  " +
                         " WHERE cp.course_id IN ( " +
                         "     SELECT lr.course_id  " +
-                        "     FROM Progress p  " +
-                        "     JOIN Resource r ON p.resource_id = r.resource_id  " +
+                        "     FROM progress p  " +
+                        "     JOIN resource r ON p.resource_id = r.resource_id  " +
                         "     JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "     WHERE p.batch_id = :batchId " +
                         " ) " +
@@ -74,8 +74,8 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         @Query(value = "SELECT user_id, AVG(course_progress) AS overall_progress " +
                         "FROM (" +
                         "   SELECT lr.course_id, p.user_id, AVG(p.completion_percentage) AS course_progress " +
-                        "   FROM Progress p " +
-                        "   JOIN Resource r ON p.resource_id = r.resource_id " +
+                        "   FROM progress p " +
+                        "   JOIN resource r ON p.resource_id = r.resource_id " +
                         "   JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id " +
                         "   WHERE p.user_id in :userIds " +
                         "   GROUP BY lr.course_id, p.user_id " +
@@ -86,8 +86,8 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         @Query(value = "SELECT AVG(course_progress) AS overall_progress " +
                         "FROM ( " +
                         "    SELECT p.user_id, (SUM(p.completion_percentage) / COUNT(p.user_id)) AS course_progress " +
-                        "    FROM Progress p " +
-                        "    JOIN Resource r ON p.resource_id = r.resource_id " +
+                        "    FROM progress p " +
+                        "    JOIN resource r ON p.resource_id = r.resource_id " +
                         "    JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id " +
                         "    WHERE p.user_id IN :userIds " +
                         "    GROUP BY p.user_id " +
@@ -105,11 +105,11 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
                         "      p.user_id,  " +
                         "      AVG(p.completion_percentage) AS topic_progress  " +
                         "  FROM  " +
-                        "      Progress p " +
+                        "      progress p " +
                         "  JOIN  " +
-                        "      Resource r ON p.resource_id = r.resource_id  " +
+                        "      resource r ON p.resource_id = r.resource_id  " +
                         "  JOIN  " +
-                        "      Learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
+                        "      learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "  WHERE  " +
                         "      p.user_id IN :userIds  " +
                         "      AND lr.course_id = :courseId  " +
@@ -125,7 +125,7 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
         List<Object[]> findCourseProgressByUserAndCourseInBatch(List<Long> userIds, long batchId, long courseId);
 
         // Fetches all the batch id's from the progress entity
-        @Query(value = "SELECT DISTINCT batch_id FROM Progress", nativeQuery = true)
+        @Query(value = "SELECT DISTINCT batch_id FROM progress", nativeQuery = true)
         List<Object[]> findAllBatches();
 
         // Fetches all the user id's from the progress entity

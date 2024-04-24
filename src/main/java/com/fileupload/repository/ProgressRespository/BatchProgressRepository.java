@@ -32,7 +32,7 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
                         "     SELECT lr.course_id, p.user_id, AVG(p.completion_percentage) AS course_progress  " +
                         "     FROM progress p  " +
                         "     JOIN resource r ON p.resource_id = r.resource_id  " +
-                        "     JOIN learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
+                        "     JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "     WHERE p.batch_id = :batchId " +
                         "     GROUP BY lr.course_id, p.user_id " +
                         " ) AS cp  " +
@@ -109,7 +109,7 @@ public interface BatchProgressRepository extends JpaRepository<Progress, Long> {
                         "  JOIN  " +
                         "      resource r ON p.resource_id = r.resource_id  " +
                         "  JOIN  " +
-                        "      learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
+                        "      learning_resource lr ON r.learning_resource_id = lr.learning_resource_id  " +
                         "  WHERE  " +
                         "      p.user_id IN :userIds  " +
                         "      AND lr.course_id = :courseId  " +

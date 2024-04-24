@@ -50,7 +50,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
                "    SELECT lr.course_id, lr.topic_id, p.user_id, AVG(p.completion_percentage) AS topic_progress " +
                "    FROM progress p " +
                "    JOIN resource r ON p.resource_id = r.resource_id " +
-               "    JOIN learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id " +
+               "    JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id " +
                "    WHERE lr.batch_id = :batchId " +
                "      AND p.user_id = :userId " +
                "      AND lr.course_id = :courseId " +
@@ -86,7 +86,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
                "    SELECT lr.course_id, lr.topic_id, p.user_id, AVG(p.completion_percentage) AS topic_progress " +
                "    FROM progress p " +
                "    JOIN resource r ON p.resource_id = r.resource_id " +
-               "    JOIN learning_Resource lr ON r.learning_resource_id = lr.learning_resource_id " +
+               "    JOIN learning_resource lr ON r.learning_resource_id = lr.learning_resource_id " +
                "    WHERE lr.batch_id = :batchId " +
                "      AND p.user_id = :userId " +
                "      AND lr.course_id IN :courseIds " +
@@ -110,7 +110,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
                " r ON p.resource_id= " +
                "  r.resource_id  " +
                "  JOIN " +
-               " learning_Resource lr " +
+               " learning_resource lr " +
                " ON r.learning_resource_id= " +
                " lr.learning_resource_id  " +
                "  WHERE " +

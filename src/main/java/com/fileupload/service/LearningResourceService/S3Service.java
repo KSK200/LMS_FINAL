@@ -202,7 +202,7 @@ public class S3Service {
 		if(!userIds.isEmpty()){
 			for (long user : userIds) {
 				for (long resource : resourceId) {
-					Progress existingProgress = progressRepository.findByUserIdAndResourceId(user, resource);
+					Progress existingProgress = progressRepository.findByUserIdAndBatchIdAndResourceId(user,batchId, resource);
 					if (existingProgress == null) {
 						Progress progress = new Progress();
 						progress.setResourceId(resource);

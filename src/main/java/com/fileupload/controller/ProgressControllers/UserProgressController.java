@@ -80,10 +80,10 @@ public class UserProgressController {
 
     // gives the progress of a user in a particular resourse
     @Operation(summary = "gives the progress of a user in a particular resourse")
-    @GetMapping("/{userId}/resource/{resourceId}")
-    public ResponseEntity<UserResourceProgressDTO> calculateResourceProgress(@PathVariable int resourceId,
+    @GetMapping("/{userId}/batch/{batchId}/resource/{resourceId}")
+    public ResponseEntity<UserResourceProgressDTO> calculateResourceProgress(@PathVariable long batchId,@PathVariable long resourceId,
             @PathVariable long userId) {
-        UserResourceProgressDTO progress = userProgressService.calculateResourceProgressForUser(userId, resourceId);
+        UserResourceProgressDTO progress = userProgressService.calculateResourceProgressForUser(userId,batchId,resourceId);
         if (progress != null) {
             return ResponseEntity.ok(progress);
         } else {
@@ -102,11 +102,11 @@ public class UserProgressController {
 
     // to update the resource completion percentage of the user
     @Operation(summary = "Update the resource completion percentage of the user")
-    @PatchMapping("/{userId}/resource/{resourceId}/update/{progress}")
-    public ResponseEntity<?> updateProgress(@PathVariable long userId, @PathVariable long resourceId,
+    @PatchMapping("/{userId}/batch/{batchId}/resource/{resourceId}/update/{progress}")
+    public ResponseEntity<?> updateProgress(@PathVariable long batchId, @PathVariable long userId, @PathVariable long resourceId,
             @PathVariable double progress) {
         try {
-            userProgressService.updateProgress(userId, progress, resourceId);
+            userProgressService.updateProgress(userId,batchId, progress, resourceId);
             return ResponseEntity.ok().build();
         } catch (ResourceIdNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

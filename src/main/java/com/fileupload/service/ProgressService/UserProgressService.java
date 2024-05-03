@@ -75,9 +75,9 @@ public class UserProgressService {
         throw new TopicIdNotFoundException("Topic with ID " + topicId + " not found.");
     }
 
-    public UserResourceProgressDTO calculateResourceProgressForUser(long userId, long resourceId)
+    public UserResourceProgressDTO calculateResourceProgressForUser(long userId,long batchId, long resourceId)
             throws ResourceIdNotFoundException {
-        Progress progress = progressRepository.findByUserIdAndResourceId(userId, resourceId);
+        Progress progress = progressRepository.findByUserIdAndBatchIdAndResourceId(userId,batchId,resourceId);
         if (progress != null) {
             return new UserResourceProgressDTO(userId, progress.getCompletionPercentage());
         }
@@ -142,8 +142,8 @@ public class UserProgressService {
         return null;
     }
 
-    public void updateProgress(long userId, double resourceProgress, long resourceId) {
-        Progress progress = progressRepository.findByUserIdAndResourceId(userId, resourceId);
+    public void updateProgress(long userId,long batchId, double resourceProgress, long resourceId) {
+        Progress progress = progressRepository.findByUserIdAndBatchIdAndResourceId(userId,batchId, resourceId);
         if (progress == null) {
             throw new ResourceIdNotFoundException("Resource with ID " + resourceId + " not found for user " + userId);
         }

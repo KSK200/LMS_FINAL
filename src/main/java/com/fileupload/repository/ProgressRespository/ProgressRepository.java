@@ -97,7 +97,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
 
      // -----------------------------changed---------------------------------------------------
      // Fetches the progress of a user in a particular resource
-     Progress findByUserIdAndResourceId(long userId, long resourceId);
+     Progress findByUserIdAndBatchIdAndResourceId(long userId,long batchId, long resourceId);
 
      @Query(value = " SELECT " +
                "  p.resource_id,  " +

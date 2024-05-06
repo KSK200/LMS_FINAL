@@ -3,6 +3,7 @@ package com.fileupload.controller.ProgressControllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +42,15 @@ public class BatchProgressController {
     }
     
     // gives the overall progress of all the batches
-    @Operation(summary  = "gives the overall progress of all the batches")
+    @Operation(summary = "gives the overall progress of all the batches")
     @GetMapping
-    public ResponseEntity<List<BatchWiseProgressDTO>> calculateBatchwiseProgress() {
+    public ResponseEntity<?> calculateBatchwiseProgress() {
         List<BatchWiseProgressDTO> batchProgressList = batchProgressService.findBatchwiseProgress();
         if (!batchProgressList.isEmpty()) {
             return ResponseEntity.ok(batchProgressList);
         } else {
-            return ResponseEntity.notFound().build();
+            String errorMessage = "No batches found.";
+            return ResponseEntity.status(HttpStatus.OK).body(errorMessage);
         }
     }
 

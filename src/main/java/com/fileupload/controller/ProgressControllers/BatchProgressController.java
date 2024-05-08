@@ -50,7 +50,7 @@ public class BatchProgressController {
             return ResponseEntity.ok(batchProgressList);
         } else {
             String errorMessage = "No batches found.";
-            return ResponseEntity.status(HttpStatus.OK).body(errorMessage);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(errorMessage);
         }
     }
 

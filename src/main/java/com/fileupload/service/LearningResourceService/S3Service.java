@@ -4,7 +4,6 @@ import com.fileupload.Exception.LearningResourceExceptions.BatchNotFoundExceptio
 import com.fileupload.Exception.LearningResourceExceptions.InvalidFileFormatException;
 import com.fileupload.Exception.LearningResourceExceptions.ResourceAlreadyExistsException;
 import com.fileupload.Exception.LearningResourceExceptions.ResourceNotFoundException;
-import com.fileupload.Exception.ProgressExceptions.UserNotFoundException;
 import com.fileupload.model.LearningResourceModel.BatchBucketMapping;
 import com.fileupload.model.LearningResourceModel.LearningResource;
 import com.fileupload.model.LearningResourceModel.Resource;
@@ -13,7 +12,6 @@ import com.fileupload.repository.LearningResourceRepository.BatchBucketMappingRe
 import com.fileupload.repository.LearningResourceRepository.LearningResourceRepo;
 import com.fileupload.repository.LearningResourceRepository.Resourcerepo;
 import com.fileupload.repository.ProgressRespository.ProgressRepository;
-import com.netflix.discovery.converters.Auto;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

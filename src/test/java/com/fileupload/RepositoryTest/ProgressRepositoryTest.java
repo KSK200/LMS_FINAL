@@ -22,7 +22,6 @@ import com.fileupload.service.ProgressService.UserProgressService;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
 public class ProgressRepositoryTest {
 
     @Mock

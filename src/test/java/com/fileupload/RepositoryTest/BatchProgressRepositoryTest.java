@@ -26,7 +26,6 @@ import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
 public class BatchProgressRepositoryTest {
     @Mock
     private BatchProgressRepository progressRepository;

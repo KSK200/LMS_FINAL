@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy the entire project (source code)
 COPY . .
 # Run Maven clean and package
-RUN mvn clean package -DskipTests
+RUN mvn clean package 
 # Start a new stage for the final image
 FROM openjdk:17-slim
 # Set the working directory in the container

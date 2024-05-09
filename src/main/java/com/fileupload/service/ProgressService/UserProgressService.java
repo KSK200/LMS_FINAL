@@ -30,6 +30,10 @@ public class UserProgressService {
     @Autowired
     private ProgressRepository progressRepository;
 
+    public UserProgressService(ProgressRepository progressRepository2) {
+        //TODO Auto-generated constructor stub
+    }
+
     public UserProgressDTO calculateOverallProgressForUser(Long userId, Long batchId) throws UserNotFoundException {
         List<Object[]> results = progressRepository.findOverallProgressForUser(userId, batchId);
         if (results != null && !results.isEmpty()) {

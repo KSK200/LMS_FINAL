@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fileupload.DTO.BUProgressDTO;
 import com.fileupload.DTO.BatchProgressDTO;
+import com.fileupload.DTO.BatchWiseCourseProgressDTO;
 import com.fileupload.DTO.BatchWiseProgressDTO;
 import com.fileupload.DTO.UserBatchProgressDTO;
 import com.fileupload.DTO.UserCourseProgressDTO;
@@ -184,4 +185,36 @@ public class BatchProgressService {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
+
+    public BatchWiseCourseProgressDTO calculBatchWiseCourseProgress(long batchId,long courseId){
+        try {
+            List<Object[]> userFromQuery = batchProgressRepository.findAllUsers(batchId);
+            if (userFromQuery.isEmpty()) {
+                throw new UserNotFoundException("No users found for the batch: " + batchId);
+            }
+
+            List<Long> users = new ArrayList<>();
+            for (Object[] id : userFromQuery) {
+                long userId = (long) id[0];
+                users.add(userId);
+            }
+
+            List<Object[]> results = batchProgressRepository.findCourseProgressByUserAndCourseInBatch(users,batchId, courseId);
+            if (results.isEmpty()) {
+                throw new CourseNotFoundException("Course not found with ID: " + courseId);
+            }
+            double sum=0;
+            for (Object[] res : results) {
+                double courseProgress = (double) res[2];
+                sum+=courseProgress;
+            }
+            double progress=sum/results.size();
+            return new BatchWiseCourseProgressDTO(batchId,courseId, progress);
+        } catch (BatchIdNotFoundException | CourseNotFoundException e) {
+            throw e; 
+        } catch (Exception e) {
+            e.printStackTrace(); // Log other unexpected exceptions
+            throw new RuntimeException("An unexpected error occurred", e);
+        }
+    } 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fileupload.DTO.BUProgressDTO;
 import com.fileupload.DTO.BatchProgressDTO;
+import com.fileupload.DTO.BatchWiseCourseProgressDTO;
 import com.fileupload.DTO.BatchWiseProgressDTO;
 import com.fileupload.DTO.UserBatchProgressDTO;
 import com.fileupload.DTO.UserCourseProgressDTO;
@@ -95,6 +96,16 @@ public class BatchProgressController {
         if (progress!=null) {
             return ResponseEntity.ok(progress);
         } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/batch-course-progress/batch/{batchId}/course/{courseId}")
+    public ResponseEntity<BatchWiseCourseProgressDTO> getOverallBatchWiseCourseProgress(@PathVariable long batchId,@PathVariable long courseId){
+        BatchWiseCourseProgressDTO progress=batchProgressService.calculBatchWiseCourseProgress(batchId, courseId);
+        if(progress!=null){
+            return ResponseEntity.ok(progress);
+        }else{
             return ResponseEntity.notFound().build();
         }
     }

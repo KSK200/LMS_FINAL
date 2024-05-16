@@ -375,7 +375,7 @@ public class S3Service {
 	}
 
 	public void createBucket(Long batchId) {
-		String bucketName = "this_batch-" + batchId;
+		String bucketName = "tbatch-" + batchId;
 		amazonS3.createBucket(bucketName);
 
 		// Disable Block Public Access settings

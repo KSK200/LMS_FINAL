@@ -15,6 +15,8 @@ import com.fileupload.DTO.BUProgressDTO;
 import com.fileupload.DTO.BatchProgressDTO;
 import com.fileupload.DTO.BatchWiseCourseProgressDTO;
 import com.fileupload.DTO.BatchWiseProgressDTO;
+import com.fileupload.DTO.BatchWiseResourceProgressDTO;
+import com.fileupload.DTO.BatchWiseTopicProgressDTO;
 import com.fileupload.DTO.UserBatchProgressDTO;
 import com.fileupload.DTO.UserCourseProgressDTO;
 import com.fileupload.service.ProgressService.BatchProgressService;
@@ -103,6 +105,26 @@ public class BatchProgressController {
     @GetMapping("/batch-course-progress/batch/{batchId}/course/{courseId}")
     public ResponseEntity<BatchWiseCourseProgressDTO> getOverallBatchWiseCourseProgress(@PathVariable long batchId,@PathVariable long courseId){
         BatchWiseCourseProgressDTO progress=batchProgressService.calculBatchWiseCourseProgress(batchId, courseId);
+        if(progress!=null){
+            return ResponseEntity.ok(progress);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/batch-topic-progress/batch/{batchId}/topic/{topicId}")
+    public ResponseEntity<BatchWiseTopicProgressDTO> getOverallbatchWiseTopicProgress(@PathVariable long batchId,@PathVariable long topicId){
+        BatchWiseTopicProgressDTO progress=batchProgressService.getBatchWiseTopicProgress(batchId,topicId);
+        if(progress!=null){
+            return ResponseEntity.ok(progress);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/batch-resource-progress/batch/{batchId}/resource/{resourceId}")
+    public ResponseEntity<BatchWiseResourceProgressDTO> getOverallBatchWiseResourceProgress(@PathVariable long batchId,@PathVariable long resourceId){
+        BatchWiseResourceProgressDTO progress = batchProgressService.getBatchWiseResourceProgress(batchId, resourceId);
         if(progress!=null){
             return ResponseEntity.ok(progress);
         }else{

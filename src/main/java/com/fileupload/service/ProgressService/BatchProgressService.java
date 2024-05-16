@@ -15,11 +15,14 @@ import com.fileupload.DTO.BUProgressDTO;
 import com.fileupload.DTO.BatchProgressDTO;
 import com.fileupload.DTO.BatchWiseCourseProgressDTO;
 import com.fileupload.DTO.BatchWiseProgressDTO;
+import com.fileupload.DTO.BatchWiseResourceProgressDTO;
+import com.fileupload.DTO.BatchWiseTopicProgressDTO;
 import com.fileupload.DTO.UserBatchProgressDTO;
 import com.fileupload.DTO.UserCourseProgressDTO;
 import com.fileupload.DTO.UserProgressDTO;
 import com.fileupload.Exception.ProgressExceptions.BatchIdNotFoundException;
 import com.fileupload.Exception.ProgressExceptions.CourseNotFoundException;
+import com.fileupload.Exception.ProgressExceptions.TopicIdNotFoundException;
 import com.fileupload.Exception.ProgressExceptions.UserNotFoundException;
 import com.fileupload.model.ProgressModel.Progress;
 import com.fileupload.repository.ProgressRespository.BatchProgressRepository;
@@ -217,4 +220,45 @@ public class BatchProgressService {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     } 
+
+    public BatchWiseTopicProgressDTO getBatchWiseTopicProgress(long batchId,long topicId){
+        try {
+            List<Object[]> userFromQuery = batchProgressRepository.findAllUsers(batchId);
+            if (userFromQuery.isEmpty()) {
+                throw new UserNotFoundException("No users found for the batch: " + batchId);
+            }
+
+            List<Long> users = new ArrayList<>();
+            for (Object[] id : userFromQuery) {
+                long userId = (long) id[0];
+                users.add(userId);
+            }
+
+            List<Object[]> results = batchProgressRepository.findTopicProgressByTopicAndUserIdAndBatch(users,batchId, topicId);
+            if (results.isEmpty()) {
+                throw new TopicIdNotFoundException("Topic not found with ID: " + topicId);
+            }
+            double sum=0;
+            for (Object[] res : results) {
+                double topicProgress = (double) res[2];
+                sum+=topicProgress;
+            }
+            double progress=sum/results.size();
+            return new BatchWiseTopicProgressDTO(batchId, topicId, progress);
+        } catch (BatchIdNotFoundException | TopicIdNotFoundException e) {
+            throw e; 
+        } catch (Exception e) {
+            e.printStackTrace(); // Log other unexpected exceptions
+            throw new RuntimeException("An unexpected error occurred", e);
+        }
+    }
+
+    public BatchWiseResourceProgressDTO getBatchWiseResourceProgress(long batchId,long resourceId){
+        List<Progress> progresses=batchProgressRepository.findByBatchIdAndResourceId(batchId,resourceId);
+        double sum=0;
+        for(Progress progress:progresses){
+            sum+=progress.getCompletionPercentage();
+        }
+        return new BatchWiseResourceProgressDTO(batchId, resourceId, sum/progresses.size());
+    }
 }

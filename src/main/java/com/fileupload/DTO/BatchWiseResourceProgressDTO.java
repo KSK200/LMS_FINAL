@@ -12,5 +12,5 @@ import lombok.Setter;
 public class BatchWiseResourceProgressDTO {
     private long batchId;
     private long resourceId;
-    private double progress;
+    private double resourceProgress;
 }

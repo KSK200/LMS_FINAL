@@ -12,5 +12,5 @@ import lombok.Setter;
 public class BatchWiseTopicProgressDTO {
     private long batchId;
     private long topicId;
-    private double progress;
+    private double topicProgress;
 }
